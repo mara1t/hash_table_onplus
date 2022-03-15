@@ -6,7 +6,7 @@
 #include "list_for_str//list.h"
 
 const int max_str_len = 20;
-const int base_table_size = 10;
+//const int base_table_size = 10;
 
 class HashTable {
     
