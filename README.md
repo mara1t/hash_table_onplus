@@ -1,6 +1,6 @@
 # hash table
 **ENTRY**:
-  put your text file into onegin.txt 
+  put your text file into og.txt 
   
   
 **Launch**:
@@ -8,7 +8,8 @@
       
   
 **Parameters**:
-  you may change the size of a hash table in file: hash.h on 8-th line "const int base_table_size = 10;"
+  No 
+ 
  
  
 **EXIT**:  
