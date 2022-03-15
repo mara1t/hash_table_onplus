@@ -1,6 +1,6 @@
 # hash table
 **ENTRY**:
-  put your text file into onegin.txt 
+  put your text file into og.txt 
   
   
 **Launch**:
