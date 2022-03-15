@@ -4,9 +4,9 @@
   
   
 **Launch**:  
-  git clone git@github.com:mara1t/hash_table_onplus.git  
-  cd hash_table_onplus  
-  make launch  
+    git clone git@github.com:mara1t/hash_table_onplus.git  
+    cd hash_table_onplus  
+    make launch  
  
  
  
