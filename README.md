@@ -4,7 +4,7 @@
   
   
 **Launch**:
-  1)in folder which contains prog write into the console "git clone git@github.com:mara1t/hash_table_onplus.git"
+  1)in folder which contains prog write into the console "git clone git@github.com:mara1t/hash_table_onplus.git"  
   2)write "make launch" in order to compil and start the programm
       
   
