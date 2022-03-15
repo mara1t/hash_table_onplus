@@ -69,21 +69,20 @@ void HashTable::Print ()
     fclose(output_file);
 }
 
-int HashTable::FindHash (char *str)
+unsigned HashTable::FindHash (char *str)
 {
     
-    int hash = 0;
+    unsigned hash = 0;
     char one_symb = 0;
     int i = 0;
     
     while (str[i] != '\0') {
-        //hash += pow(2, i) * (str[i] - 127);
+        hash += pow(2, i) * (str[i] - 127);
         i++;
     }
 
-    hash %= size;
+    hash = hash % size;
 
-    hash = 1;
 
     return hash;
 }
@@ -98,6 +97,7 @@ int HashTable::MakeTable ()
     while (fscanf(file_onegin, "%s ", cur_str) != EOF) {  
 
         int tmp_hash = FindHash(cur_str);
+        
         int tmp_pos = (arr[tmp_hash]).next[0];
 
         while (tmp_pos != 0) {
@@ -118,7 +118,6 @@ int HashTable::MakeTable ()
         }
         
     }
-
     free(cur_str);
     fclose(file_onegin);
 
