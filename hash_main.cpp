@@ -7,17 +7,16 @@ void print_hello (HashTable MyHashTable) {
 
 int main() {
 
-    FILE *onegin = fopen ("onegin.txt", "r");
+    int size = FileSize();
 
-    HashTable MyHashTable;
+    HashTable MyTable(size);
 
-    MyHashTable.make_hash_table(onegin);
+    MyTable.MakeTable();
 
-    MyHashTable.print_hash_table();
+    MyTable.Print();
 
-    //print_hello (MyHashTable);
 
-    fclose(onegin);
+    //print_hello (MyTable);
 
     return 0;
 }

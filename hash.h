@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <cmath>
+#include <assert.h>
 #include "list_for_str//list.h"
 
 const int max_str_len = 20;
@@ -13,9 +14,12 @@ class HashTable {
 
     public:
         List *arr;
-        unsigned find_hash (char *);
-        int make_hash_table (FILE *);
-        void print_hash_table ();
+        int FindHash (char *);
+        int MakeTable ();
+        void Print ();
         HashTable ();
+        HashTable (int size);
         ~HashTable ();
 };
+
+int FileSize ();

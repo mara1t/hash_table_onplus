@@ -7,10 +7,13 @@ int ListCtor (List *lst) {
         return -1;
     }
 
-    lst->mass = (elem_t**) calloc (BASE_LIST_SIZE, sizeof(elem_t*));
+    lst->mass = (char**) calloc (BASE_LIST_SIZE, sizeof(char*));
     lst->next = (int*) calloc (BASE_LIST_SIZE, sizeof(int));
     lst->previous = (int*) calloc (BASE_LIST_SIZE, sizeof(int));
     lst->amount = (int*) calloc (BASE_LIST_SIZE, sizeof(int));
+
+    for (int i = 1; i < BASE_LIST_SIZE; i++)
+        lst->mass[i] = (char*) calloc (20, sizeof(char));
 
 
     lst->free_first_pos = 1;
@@ -48,7 +51,7 @@ int ListRealloc (List *lst, const int plus_capacity) {
         return -1;
     }*/
 
-    lst->mass = (elem_t**) realloc (lst->mass, (plus_capacity + lst->capacity) * sizeof(elem_t*));
+    lst->mass = (char**) realloc (lst->mass, (plus_capacity + lst->capacity) * sizeof(char*));
     lst->next = (int*) realloc (lst->next, (plus_capacity + lst->capacity) * sizeof(int));
     lst->previous = (int*) realloc (lst->previous, (plus_capacity + lst->capacity) * sizeof(int));
 
@@ -93,7 +96,7 @@ int ListDelete (List* lst, const int number) {
     return 0;
 }
 
-int ListInsertAft (List *lst, const int number, elem_t *value) {
+int ListInsertAft (List *lst, const int number, char *value) {
 
     if (number == lst->previous[0])
         lst->previous[0] = lst->free_first_pos;
@@ -103,7 +106,7 @@ int ListInsertAft (List *lst, const int number, elem_t *value) {
     }
 
     int tmp_pos = - lst->next[lst->free_first_pos];
-    lst->mass[lst->free_first_pos] = value;
+    strcpy(lst->mass[lst->free_first_pos], value);
     lst->next[lst->free_first_pos] = lst->next[number];
     lst->previous[lst->free_first_pos] = number;
     lst->previous[lst->next[number]] = lst->free_first_pos;
@@ -115,7 +118,7 @@ int ListInsertAft (List *lst, const int number, elem_t *value) {
     return 0;
 }
 
-int ListInsertBef (List *lst, const int number, elem_t *value) {
+int ListInsertBef (List *lst, const int number, char *value) {
 
     if (number == lst->next[0])
         lst->next[0] = lst->free_first_pos;
@@ -126,7 +129,7 @@ int ListInsertBef (List *lst, const int number, elem_t *value) {
 
     int tmp_pos = - lst->next[lst->free_first_pos];
 
-    lst->mass[lst->free_first_pos] = value;
+    strcpy(lst->mass[lst->free_first_pos], value);
     lst->next[lst->free_first_pos] = number;
     lst->previous[lst->free_first_pos] = lst->previous[number];
     lst->previous[number] = lst->free_first_pos;
@@ -139,7 +142,7 @@ int ListInsertBef (List *lst, const int number, elem_t *value) {
     return 0;
 }
 
-int ListInsertAftLogic (List *lst, const int number, elem_t *value) {
+int ListInsertAftLogic (List *lst, const int number, char *value) {
 
     if (number >= lst->size) {
         printf("Not enough size\n");
@@ -170,7 +173,7 @@ int Sort (List *lst) {
         return 0;
     }
 
-    elem_t **tmp_arr_mass = (elem_t**) calloc (lst->size + 1, sizeof(elem_t*));
+    char **tmp_arr_mass = (char**) calloc (lst->size + 1, sizeof(char*));
     int *tmp_arr_next = (int*) calloc (lst->size + 1, sizeof(int));
     int *tmp_arr_prev = (int*) calloc (lst->size + 1, sizeof(int));
 
@@ -209,7 +212,7 @@ int Sort (List *lst) {
 }
 
 
-int ListHeadAdd (List *lst, elem_t *value) {
+int ListHeadAdd (List *lst, char *value) {
 
     if (lst->free_first_pos == 0) {
         printf("No place for adding\n");
@@ -220,7 +223,7 @@ int ListHeadAdd (List *lst, elem_t *value) {
         ListRealloc (lst, 20);
     }
    
-    lst->mass[lst->free_first_pos] = value;
+    strcpy(lst->mass[lst->free_first_pos], value);
     lst->next[lst->free_first_pos] = lst->next[0];
     lst->previous[lst->next[0]] = lst->free_first_pos;
     lst->next[0] = lst->free_first_pos;
@@ -233,7 +236,7 @@ int ListHeadAdd (List *lst, elem_t *value) {
     return 0;
 }
 
-int ListTailAdd (List *lst, elem_t *value) {
+int ListTailAdd (List *lst, char *value) {
 
     if (lst->free_first_pos == 0) {
         printf("No place for adding\n");
@@ -243,13 +246,15 @@ int ListTailAdd (List *lst, elem_t *value) {
     if (lst->capacity == lst->size - 1) {
         ListRealloc (lst, 20);
     }
-    
-    lst->mass[lst->free_first_pos] = value;
+
+    int tmp_pos = - lst->next[lst->free_first_pos];
+
+    strcpy(lst->mass[lst->free_first_pos], value);
     lst->next[lst->free_first_pos] = 0;
     lst->previous[lst->free_first_pos] = lst->previous[0];
     lst->next[lst->previous[0]] = lst->free_first_pos;
     lst->previous[0] = lst->free_first_pos;
-    lst->free_first_pos = - lst->next[lst->free_first_pos];
+    lst->free_first_pos = tmp_pos;
     
     lst->size++;
 
@@ -257,10 +262,10 @@ int ListTailAdd (List *lst, elem_t *value) {
 }
 
 
-int PrintList (List *lst) {
+int PrintList (List *lst, FILE *output) {
 
     if (lst->size == 0) {
-        printf("0\n");
+        fprintf(output, "0\n");
         return -1;
     }
 
@@ -268,12 +273,12 @@ int PrintList (List *lst) {
     int counter = 0;
 
     while (lst->next[position] > 0 && counter++ < lst->size) {
-        printf("%d ", lst->amount[position]);
+        fprintf(output, "%d ", lst->amount[position]);
         position = lst->next[position];
         
     }
 
-    printf("%d\n", lst->amount[position]);
+    fprintf(output, "%d\n", lst->amount[position]);
 
     return 0;
 }

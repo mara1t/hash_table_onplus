@@ -1,78 +1,126 @@
 #include "hash.h"
 
+int FileSize () 
+{
+    FILE *file_onegin = fopen("og.txt", "r");
+    assert(file_onegin != NULL);
+
+    char *tmp_str = new char [20];
+    int size = 0;
+
+
+    while (fscanf(file_onegin, "%s", tmp_str) != EOF) {
+        size++;
+    }
+
+    delete[] tmp_str;
+    
+    fclose(file_onegin);
+    return size;
+
+}
+
 HashTable::HashTable () 
 {
-    this->size = base_table_size;
+    size = base_table_size;
 
-    this->arr = (List*) calloc (this->size, sizeof(List));
+    arr = new List [size];
 
-    for (int i = 0; i < this->size; i++) 
-        ListCtor(&(this->arr[i]));
+    for (int i = 0; i < size; i++) 
+        ListCtor(&(arr[i]));
+        
+    printf("this default ctor\n");
+}
+HashTable::HashTable (int size_) 
+{
+    
+    size = size_;
+
+    arr = new List [size];
+
+    for (int i = 0; i < size; i++) { 
+        ListCtor(&(arr[i]));\
+    }
+        
+    printf("this size ctor\n");
 }
 
 HashTable::~HashTable () 
 {
-    this->size = 0;
-    for (int i = 0; i < this->size; i++) 
-        ListDtor(&(this->arr[i]));
+    size = 0;
+    
+    delete[] arr; 
+
+    printf("this default dtor\n");
 
 }
 
-void HashTable::print_hash_table () 
+void HashTable::Print () 
 {
-    printf("START TABLE-------------------\n");
-    for (unsigned i = 0; i < this->size; i++) {
-        printf("[%d] = ", i);
-        PrintList(&(this->arr[i]));
+    FILE *output_file = fopen("output.txt", "w");
+
+    
+    for (int i = 0; i < size; i++) {
+        fprintf(output_file, "[%d] = ", i);
+        PrintList(&(arr[i]), output_file);
     }
-    printf("END TABLE---------------------\n");
+    
+
+    fclose(output_file);
 }
 
-unsigned HashTable::find_hash (char *str)
+int HashTable::FindHash (char *str)
 {
     
-    unsigned hash = 0;
+    int hash = 0;
     char one_symb = 0;
     int i = 0;
     
     while (str[i] != '\0') {
-        hash += pow(2, i) * (str[i] - 127);
+        //hash += pow(2, i) * (str[i] - 127);
         i++;
     }
 
-    hash = hash % this->size;
+    hash %= size;
+
+    hash = 1;
 
     return hash;
 }
 
-int HashTable::make_hash_table (FILE *onegin)
+int HashTable::MakeTable ()
 {
+
+    FILE *file_onegin = fopen("og.txt", "r");
+
     char *cur_str = (char*) calloc (max_str_len, sizeof(char));
 
-    while (fscanf(onegin, "%s ", cur_str) != EOF) {  
+    while (fscanf(file_onegin, "%s ", cur_str) != EOF) {  
 
-        unsigned tmp_hash = find_hash(cur_str);
-        int tmp_pos = (this->arr[tmp_hash]).next[0];
-    
+        int tmp_hash = FindHash(cur_str);
+        int tmp_pos = (arr[tmp_hash]).next[0];
+
         while (tmp_pos != 0) {
 
-            if (strcmp(cur_str, (this->arr[tmp_hash]).mass[tmp_pos]) == 0) {
-                
-                (this->arr[tmp_hash]).amount[tmp_pos]++;
+           
+            if (strcmp(cur_str, (arr[tmp_hash]).mass[tmp_pos]) == 0) {
+
+                (arr[tmp_hash]).amount[tmp_pos]++;                
                 break;
             }
         
-            tmp_pos = (this->arr[tmp_hash]).next[tmp_pos];
+            tmp_pos = (arr[tmp_hash]).next[tmp_pos];
         }
 
         if (tmp_pos == 0) {
-            ListTailAdd(&(this->arr[tmp_hash]), cur_str);
-            (this->arr[tmp_hash]).amount[(this->arr[tmp_hash]).previous[tmp_pos]]++;
+            ListTailAdd(&(arr[tmp_hash]), cur_str);
+            (arr[tmp_hash]).amount[(arr[tmp_hash]).previous[0]]++; //instead of 0 - tmp_pos
         }
         
     }
 
     free(cur_str);
+    fclose(file_onegin);
 
     return 0;
 }

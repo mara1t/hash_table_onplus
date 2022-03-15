@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 
 typedef char elem_t;
 
+#define $$$ printf("line=%d\n", __LINE__);
+
 typedef struct list {
 
-    elem_t **mass;
+    char **mass;
     int *amount;
     int *next;
     int *previous;
@@ -17,46 +21,16 @@ typedef struct list {
 
 const int BASE_LIST_SIZE = 100;
 
-///===============================================
-
-#define $$$ printf("here on line=%d\n", __LINE__);
-
-/*
-#define PR printf("\nmass\n");\
-    for (int i = 0; i < lst.capacity; i++)\
-    {\
-        printf("%d=%d ", i, lst.mass[i]);\
-    }\
-    printf("\nnext\n");\
-    for (int i = 0; i < lst.capacity; i++)\
-    {\
-        printf("%d=%d ", i, lst.next[i]);\
-    }\
-    printf("\nprev\n");\
-    for (int i = 0; i < lst.capacity; i++)\
-    {\
-        printf("%d=%d ", i, lst.previous[i]);\
-    }\
-*/
-///===========================================================
-
-#define INSERT_AFT(num, val)    ListInsertAft(&lst, num, val)
-#define INSERT_BEF(num, val)    ListInsertBef(&lst, num, val)
-#define DELETE(num)             ListDelete(&lst, num)
-#define TAILADD(num)            ListTailAdd(&lst, num)
-#define HEADADD(num)            ListHeadAdd(&lst, num)
-#define PRINTLIST               PrintList(&lst)
-#define GRAPHPRINT              graph_print(lst)
 
 int ListCtor        (List *lst);
 int ListDtor        (List* lst);
 int ListDelete      (List* lst, const int number);
-int ListInsertAft   (List* lst, const int number, elem_t *value);
-int PrintList       (List *lst);
+int ListInsertAft   (List* lst, const int number, char *value);
+int PrintList       (List *lst, FILE * output);
 int graph_print     (List  lst);
-int ListHeadAdd     (List *lst, elem_t *value);
-int ListTailAdd     (List *lst, elem_t *value);
-int ListInsertBef   (List *lst, const int number, elem_t *value);
+int ListHeadAdd     (List *lst, char *value);
+int ListTailAdd     (List *lst, char *value);
+int ListInsertBef   (List *lst, const int number, char *value);
 int Sort            (List *lst);
-int ListInsertAftLogic (List *lst, const int number, elem_t *value);
+int ListInsertAftLogic (List *lst, const int number, char *value);
 int ListRealloc     (List *lst, const int plus_capacity);
