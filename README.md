@@ -3,12 +3,10 @@
   put your text file into og.txt 
   
   
-**Launch**:
-  go to your console and then to your folder, which contains this prog and write "make launch" in order to compil and start the programm
-      
-  
-**Parameters**:
-  No 
+**Launch**:  
+    &emsp; git clone git@github.com:mara1t/hash_table_onplus.git  
+    &emsp; cd hash_table_onplus  
+    &emsp; make launch  
  
  
  
