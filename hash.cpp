@@ -69,6 +69,29 @@ void HashTable::Print ()
     fclose(output_file);
 }
 
+int HashTable::FindElem (char *value) 
+{
+    unsigned tmp_hash = FindHash(value);
+    int tmp_pos = (arr[tmp_hash]).next[0];
+
+    while (tmp_pos != 0) {
+
+        if (strcmp(value, (arr[tmp_hash]).mass[tmp_pos]) == 0) {
+            return tmp_pos;
+        }
+
+        tmp_pos = (arr[tmp_hash]).next[tmp_pos];
+    }
+
+        
+    if (tmp_pos == 0) {
+        printf("No elem\n");
+        return -1;
+    }
+    
+    return tmp_pos;
+}
+
 unsigned HashTable::FindHash (char *str)
 {
     

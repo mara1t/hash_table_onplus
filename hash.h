@@ -17,8 +17,9 @@ class HashTable {
         unsigned FindHash (char *);
         int MakeTable ();
         void Print ();
+        int FindElem (char *value);
         HashTable ();
-        HashTable (int size);
+        HashTable (int);
         ~HashTable ();
 };
 
