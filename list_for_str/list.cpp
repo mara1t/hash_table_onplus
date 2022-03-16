@@ -273,12 +273,10 @@ int PrintList (List *lst, FILE *output) {
     int counter = 0;
 
     while (lst->next[position] > 0 && counter++ < lst->size) {
-        fprintf(output, "%d ", lst->amount[position]);
+        fprintf(output, "\"%s\"=%d ", lst->mass[position], lst->amount[position]);
         position = lst->next[position];
-        
     }
-
-    fprintf(output, "%d\n", lst->amount[position]);
+    fprintf(output, "\"%s\"=%d\n", lst->mass[position], lst->amount[position]);
 
     return 0;
 }
