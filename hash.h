@@ -18,6 +18,7 @@ class HashTable {
         int MakeTable ();
         void Print ();
         int FindElem (char *value);
+        int GraphPrint();
         HashTable ();
         HashTable (int);
         ~HashTable ();

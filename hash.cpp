@@ -146,3 +146,63 @@ int HashTable::MakeTable ()
 
     return 0;
 }
+
+int HashTable::GraphPrint () 
+{
+
+    FILE *graph = fopen("graph.txt", "w");
+
+    int global_counter = 0;
+    int print_counter = 0;
+
+    fprintf(graph, "digraph G{\n"
+                   "\trankdir=LR;\n");
+    
+    int lst_counter = 0;
+
+    while (lst_counter < size) {
+
+        if ((arr[lst_counter]).size == 0) {
+            lst_counter++;
+            continue;
+        }
+
+        int position = (arr[lst_counter]).next[0];
+        int for_one_lst_counter = 0;
+        int print_counter = 0;
+
+        while ((arr[lst_counter]).next[position] != 0) {
+            fprintf(graph, "\tstruct%d [shape=record,label=\"  \\n%s | <f0> amount\\n %d\" ];\n", global_counter, (arr[lst_counter]).mass[position], (arr[lst_counter]).amount[position]);
+            for_one_lst_counter++;
+            global_counter++;
+            position = (arr[lst_counter]).next[position];
+        }
+
+        fprintf(graph, "\tstruct%d [shape=record,label=\"  \\n%s | <f0> amount\\n %d\" ];\n", global_counter, (arr[lst_counter]).mass[position], (arr[lst_counter]).amount[position]);
+        global_counter++;
+
+        lst_counter++;
+    }
+
+    fprintf(graph, "\t");
+        
+
+    while (global_counter > 0) {
+        fprintf(graph, "struct%d:<f0>", print_counter);
+        if (global_counter != 1)
+            fprintf(graph, " -> ");
+
+        print_counter++;
+        global_counter--;
+    }
+
+    fprintf(graph, ";\n");
+
+
+    fprintf(graph, "}");
+
+
+    fclose(graph);
+
+    return 0;
+}

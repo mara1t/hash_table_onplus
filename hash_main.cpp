@@ -15,6 +15,7 @@ int main() {
 
     MyTable.Print();
 
+    MyTable.GraphPrint();
 
     //print_hello (MyTable);
 

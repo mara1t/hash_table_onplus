@@ -1,0 +1,8 @@
+digraph G{
+	rankdir=LR;
+	struct0 [shape=record,label="  \nparam | <f0> amount\n 1" ];
+	struct1 [shape=record,label="  \nkaram | <f0> amount\n 1" ];
+	struct2 [shape=record,label="  \nmarat | <f0> amount\n 4" ];
+	struct3 [shape=record,label="  \ntaram | <f0> amount\n 1" ];
+	struct0:<f0> -> struct1:<f0> -> struct2:<f0> -> struct3:<f0>;
+}
