@@ -13,3 +13,4 @@
 **EXIT**:  
   dump in png file
 
+![pict](https://user-images.githubusercontent.com/88665544/158988496-7787e294-75aa-4bb1-b1be-84a651c55076.png)
